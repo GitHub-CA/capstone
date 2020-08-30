@@ -15,12 +15,12 @@ pipeline {
                   sh 'tidy -q -e *.html'
               }
          }
-         stage('Security Scan') {
-              steps {
-                 // aquaMicroscanner imageName: 'alpine:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'html'
-              }
-         }
-         stage('Upload to AWS') {
+        stage('Build Docker image') {
+			steps {
+				sh 'docker build -t html-server-image:v1 .'
+			}
+		} 
+		stage('Upload to AWS') {
               steps {
                   withAWS(region:'us-east-2',credentials:'aws-static') {
                   sh 'echo "Uploading content with AWS creds"'
