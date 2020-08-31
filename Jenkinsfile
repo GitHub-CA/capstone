@@ -17,8 +17,10 @@ pipeline {
          }
         stage('Build Docker image') {
 			steps {
-				def customImage = docker.build("capstone:${env.BUILD_ID}")
-				customImage.push()
+				node {
+					def customImage = docker.build("capstone:${env.BUILD_ID}")
+					customImage.push()
+				}
 			}
 		} 
 		stage('Upload to AWS') {
