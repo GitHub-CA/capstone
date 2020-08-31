@@ -1,3 +1,4 @@
+def customImage = ''
 pipeline {
      agent { dockerfile true }
      stages {
@@ -17,12 +18,18 @@ pipeline {
          }
         stage('Build Docker image') {
 			steps {
-				node {
-					def customImage = docker.build("capstone:${env.BUILD_ID}")
-					customImage.push()
+				script {
+					customImage = docker.build("capstone:${env.BUILD_ID}")
 				}
 			}
 		} 
+		stage('Push Docker image') {
+			steps {
+				script {
+					customImage.push()
+				}
+			}
+		}
 		stage('Upload to AWS') {
               steps {
                   withAWS(region:'us-east-2',credentials:'aws-static') {
