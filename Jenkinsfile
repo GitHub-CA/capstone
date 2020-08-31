@@ -1,5 +1,5 @@
 pipeline {
-     agent any
+     agent { dockerfile true }
      stages {
          stage('Build') {
              steps {
@@ -17,7 +17,8 @@ pipeline {
          }
         stage('Build Docker image') {
 			steps {
-				sh 'docker build -t html-server-image:v1 .'
+				def customImage = docker.build("capstone:${env.BUILD_ID}")
+				customImage.push()
 			}
 		} 
 		stage('Upload to AWS') {
