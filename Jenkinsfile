@@ -20,7 +20,7 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          customImage = docker.build("mbeimcik/capstone")
+          customImage = docker.build("capstone")
         }
 
       }
