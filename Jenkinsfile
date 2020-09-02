@@ -29,7 +29,7 @@ pipeline {
     stage('Push Docker image') {
       steps {
         script {
-          docker.withRegistry( 'https://index.docker.io/v2/', 'docker-hub' ) {
+          docker.withRegistry( '622635165270.dkr.ecr.us-west-2.amazonaws.com', 'ecr-user' ) {
             customImage.push()
           }
         }
