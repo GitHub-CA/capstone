@@ -40,7 +40,7 @@ pipeline {
     stage('Upload to AWS') {
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
-  			sh aws eks --region us-west-2 update-kubeconfig --name capstone
+  			sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
         }
       }
 
