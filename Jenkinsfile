@@ -40,12 +40,14 @@ pipeline {
     stage('Upload to AWS') {
       steps {
         withAWS(region: 'us-east-2', credentials: 'aws-static') {
-          sh 'echo "Uploading content with AWS creds"'
-          s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file: 'index.html', bucket: 'udacity.project.3')
+          sh 'echo "Creating config file for kube"'
         }
 
+        sh '''withAWS(region: \'us-west-2\', credentials: \'eks-user\') {
+  sh aws eks --region us-west-2 update-kubeconfig --name capstone
+}'''
+        }
       }
-    }
 
+    }
   }
-}
