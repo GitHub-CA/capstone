@@ -37,7 +37,7 @@ pipeline {
       }
     }
 
-    stage('Upload to AWS') {
+    stage('Updating config file') {
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
   			sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
@@ -45,5 +45,8 @@ pipeline {
       }
 
     }
-  }
+	stage('Deploy to K8S") {
+      steps {
+        sh 'kubectl set image capstone'
+      }
 }
