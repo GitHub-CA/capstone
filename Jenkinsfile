@@ -1,39 +1,20 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('Updating config file') {
       steps {
-        sh 'echo "Hello World"'
-        sh '''
-                     echo "Multiline shell steps works too"
-                     ls -lah
-                 '''
-      }
-    }
-
-    stage('Lint HTML') {
-      steps {
-        sh 'tidy -q -e *.html'
-      }
-    }
-
-    stage('Build Docker image') {
-      steps {
-        script {
-          customImage = docker.build("capstone")
+        withAWS(region: 'us-west-2', credentials: 'eks-user') {
+  			sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
         }
-
       }
+
     }
 
-     stage('Push Docker image') {
+	stage('Deploy to K8S') {
       steps {
-        script {
-          docker.withRegistry( 'https://index.docker.io/v2/', 'docker-hub' ) {
-            customImage.push()
-          }
+		withAWS(region: 'us-west-2', credentials: 'eks-user') {
+          sh 'kubectl set image capstone'
         }
-
       }
     }
 
