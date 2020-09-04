@@ -45,6 +45,7 @@ pipeline {
       }
 
     }
+
 	stage('Deploy to K8S") {
       steps {
         sh 'kubectl set image capstone'
