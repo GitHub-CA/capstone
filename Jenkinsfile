@@ -26,31 +26,14 @@ pipeline {
       }
     }
 
-    stage('Push Docker image') {
+     stage('Push Docker image') {
       steps {
         script {
-          docker.withRegistry( 'https://622635165270.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:ecr-user' ) {
+          docker.withRegistry( 'https://index.docker.io/v2/', 'docker-hub' ) {
             customImage.push()
           }
         }
 
-      }
-    }
-
-    stage('Updating config file') {
-      steps {
-        withAWS(region: 'us-west-2', credentials: 'eks-user') {
-  			sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
-        }
-      }
-
-    }
-
-	stage('Deploy to K8S') {
-      steps {
-		withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          sh 'kubectl set image capstone'
-        }
       }
     }
 
