@@ -50,4 +50,5 @@ pipeline {
       steps {
         sh 'kubectl set image capstone'
       }
+    }
 }
