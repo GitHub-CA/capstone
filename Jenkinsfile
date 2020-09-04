@@ -51,4 +51,6 @@ pipeline {
         sh 'kubectl set image capstone'
       }
     }
+
+  }
 }
