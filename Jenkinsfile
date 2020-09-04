@@ -48,7 +48,9 @@ pipeline {
 
 	stage('Deploy to K8S') {
       steps {
-        sh 'kubectl set image capstone'
+		withAWS(region: 'us-west-2', credentials: 'eks-user') {
+          sh 'kubectl set image capstone'
+        }
       }
     }
 
