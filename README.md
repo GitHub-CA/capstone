@@ -1,8 +1,8 @@
 # capstone
 Udacity DevOps capstone project
 
-# this branch features screenshots
+This branch features the required screenshots
 
-# development branch features files related to development pipeline
+**Development** branch features files related to development pipeline
 
-# deployment branch features files related to deployment pipeline
+**Deployment** branch features files related to deployment pipeline
