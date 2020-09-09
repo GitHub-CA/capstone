@@ -42,6 +42,6 @@ spec:
                 - arm64
       containers:
       - name: capstone
-        image: capstone
+        image: capstone:latest
         ports:
         - containerPort: 80
