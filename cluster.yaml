@@ -13,5 +13,6 @@ managedNodeGroups:
     minSize: 1
     maxSize: 3
     desiredCapacity: 3
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
 
