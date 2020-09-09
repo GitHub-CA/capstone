@@ -15,7 +15,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: capstone-deployment
+  name: capstone
   labels:
     app: capstone-app
 spec:
@@ -28,19 +28,9 @@ spec:
       labels:
         app: capstone-app
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
-                - arm64
       containers:
       - name: capstone
         image: mbeimcik/capstone
-		imagePullPolicy: Always
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
