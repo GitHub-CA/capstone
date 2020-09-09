@@ -23,7 +23,7 @@ docker image history mbeimcik/capstone'''
     stage('Rolling update status') {
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          sh 'kubectl rollout status deployment capstone-deployment'
+          sh 'kubectl rollout status deployment capstone'
         }
 
       }
