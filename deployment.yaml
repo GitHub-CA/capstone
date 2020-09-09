@@ -41,7 +41,7 @@ spec:
                 - amd64
                 - arm64
       containers:
-      - name: mbeimcik/capstone
-        image: capstone:latest
+      - name: capstone
+        image: capstone
         ports:
         - containerPort: 80
