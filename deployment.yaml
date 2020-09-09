@@ -42,6 +42,7 @@ spec:
                 - arm64
       containers:
       - name: capstone
-        image: capstone:latest
+        image: mbeimcik/capstone
+		imagePullPolicy: Always
         ports:
         - containerPort: 80
