@@ -20,5 +20,11 @@ docker image history mbeimcik/capstone'''
       }
     }
 
+    stage('Rolling update status') {
+      steps {
+        sh 'kubectl rollout status'
+      }
+    }
+
   }
 }
