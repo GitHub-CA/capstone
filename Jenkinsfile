@@ -21,6 +21,7 @@ docker image history mbeimcik/capstone'''
           kubectl set image deployment capstone capstone=mbeimcik/capstone:${tag}'''
         }
       }
+    }
 
       stage('Rolling update status') {
         steps {
