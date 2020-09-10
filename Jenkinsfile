@@ -14,20 +14,24 @@ docker image history mbeimcik/capstone'''
     stage('Rolling update K8S') {
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          sh 'kubectl set image deployment capstone capstone=mbeimcik/capstone:latest'
+          sh '''def tag = """${sh(
+            returnStdout: true,
+            script: \'git log Development -1 --pretty=%h\'
+          )}""".trim()
+kubectl set image deployment capstone capstone=mbeimcik/capstone:${tag}'''
+          }
+
         }
-
       }
-    }
 
-    stage('Rolling update status') {
-      steps {
-        withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          sh 'kubectl rollout status deployment capstone'
+      stage('Rolling update status') {
+        steps {
+          withAWS(region: 'us-west-2', credentials: 'eks-user') {
+            sh 'kubectl rollout status deployment capstone'
+          }
+
         }
-
       }
-    }
 
+    }
   }
-}
