@@ -7,18 +7,20 @@ pipeline {
           sh '''aws eks --region us-west-2 update-kubeconfig --name capstone
 docker image history mbeimcik/capstone'''
         }
-
       }
     }
 
     stage('Rolling update K8S') {
       steps {
+		script {
 		def tag = """${sh(
             returnStdout: true,
             script: 'git log -1 --pretty=%h'
           )}""".trim()
+		def img = "mbeimcik/capstone:${tag}"
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
           kubectl set image deployment capstone capstone=mbeimcik/capstone:${tag}'''
+        }
         }
       }
     }
