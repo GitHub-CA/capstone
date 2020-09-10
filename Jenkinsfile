@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  
+  def tag = ""
+
   stages {
     stage('Lint HTML') {
       steps {
@@ -10,7 +13,7 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          def tag = """${sh(
+          tag = """${sh(
             returnStdout: true,
             script: 'git log -1 --pretty=%h'
           )}""".trim()
@@ -31,5 +34,10 @@ pipeline {
       }
     }
 
-  }
+    stage('Start another job') {
+      steps {
+        build job: 'Deployment', wait: false, parameters: [string(name: 'TAG', value: String.valueOf(tag))]
+      }
+
+    }
 }
