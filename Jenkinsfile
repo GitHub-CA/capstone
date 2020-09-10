@@ -1,5 +1,10 @@
 pipeline {
   agent any
+
+  parameters {
+    string(defaultValue: "", description: 'latest dev sha', name='TAG')
+  }
+  
   stages {
     stage('Updating config file') {
       steps {
@@ -14,8 +19,7 @@ docker image history mbeimcik/capstone'''
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
          sh '''
-           TAG=$(git log Development -1 --pretty=%h)
-           kubectl set image deployment capstone capstone=mbeimcik/capstone:${IMG}'''
+           kubectl set image deployment capstone capstone=mbeimcik/capstone:{TAG}'''
         }
       }
     }
