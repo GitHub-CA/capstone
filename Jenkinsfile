@@ -10,7 +10,10 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          def tag = sh 'echo Hello-world'
+          def tag = """${sh(
+            returnStdout: true,
+            script: 'echo "clang"'
+          )}"""
           customImage = docker.build("mbeimcik/capstone:${tag}")
         }
 
