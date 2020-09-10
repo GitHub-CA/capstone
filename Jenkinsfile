@@ -4,7 +4,7 @@ pipeline {
     stage('Updating config file') {
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          sh '''aws eks --region us-west-2 update-kubeconfig --name capstone-cluster
+          sh '''aws eks --region us-west-2 update-kubeconfig --name capstone
 docker image history mbeimcik/capstone'''
         }
 
