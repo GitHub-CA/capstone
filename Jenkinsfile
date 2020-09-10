@@ -1,7 +1,6 @@
 pipeline {
   agent any
   stages {
-
     stage('Lint HTML') {
       steps {
         sh 'tidy -q -e *.html'
@@ -11,13 +10,14 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          customImage = docker.build("mbeimcik/capstone")
+          tag = "v2"
+          customImage = docker.build("mbeimcik/capstone:${tag}")
         }
 
       }
     }
 
-     stage('Push Docker image') {
+    stage('Push Docker image') {
       steps {
         script {
           docker.withRegistry( 'https://index.docker.io/v2/', 'docker-hub' ) {
