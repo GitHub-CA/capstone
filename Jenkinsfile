@@ -10,7 +10,7 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          def tag = 'git log -1 --pretty=%!H(MISSING)'
+          def tag = 'git log -1 --pretty=%!h'
           customImage = docker.build("mbeimcik/capstone:${tag}")
         }
 
