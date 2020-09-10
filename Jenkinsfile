@@ -13,7 +13,7 @@ pipeline {
           def tag = """${sh(
             returnStdout: true,
             script: 'echo "clang"'
-          )}"""
+          )}""".trim()
           customImage = docker.build("mbeimcik/capstone:${tag}")
         }
 
