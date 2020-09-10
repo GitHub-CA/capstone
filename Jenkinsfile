@@ -48,7 +48,8 @@ docker image history mbeimcik/capstone'''
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
          sh '''
-           kubectl set image deployment capstone capstone=mbeimcik/capstone:{TAG}'''
+           tag = $(git log -1 --pretty=%h')
+           kubectl set image deployment capstone capstone=mbeimcik/capstone:$tag'''
         }
       }
     }
