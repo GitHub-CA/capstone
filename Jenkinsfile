@@ -3,7 +3,7 @@ pipeline {
   
   stages {
     
-    def tag = "x"
+    def TAG = ""
 
     stage('Lint HTML') {
       steps {
@@ -14,11 +14,11 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          tag = """${sh(
+          TAG = """${sh(
             returnStdout: true,
             script: 'git log -1 --pretty=%h'
           )}""".trim()
-          customImage = docker.build("mbeimcik/capstone:${tag}")
+          customImage = docker.build("mbeimcik/capstone:${TAG}")
         }
 
       }
@@ -35,11 +35,30 @@ pipeline {
       }
     }
 
-    stage('Start another job') {
+    stage('Updating config file') {
       steps {
-        build job: 'Deployment', wait: false, parameters: [string(name: 'TAG', value: String.valueOf(tag))]
+        withAWS(region: 'us-west-2', credentials: 'eks-user') {
+          sh '''aws eks --region us-west-2 update-kubeconfig --name capstone
+docker image history mbeimcik/capstone'''
+        }
       }
+    }
 
+    stage('Rolling update K8S') {
+      steps {
+        withAWS(region: 'us-west-2', credentials: 'eks-user') {
+         sh '''
+           kubectl set image deployment capstone capstone=mbeimcik/capstone:{TAG}'''
+        }
+      }
+    }
+
+    stage('Rolling update status') {
+      steps {
+        withAWS(region: 'us-west-2', credentials: 'eks-user') {
+          sh 'kubectl rollout status deployment capstone'
+        }
+      }
     }
  }
 }
