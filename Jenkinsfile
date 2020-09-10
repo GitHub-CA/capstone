@@ -1,10 +1,10 @@
+def TAG = ""
+
 pipeline {
   agent any
   
   stages {
     
-    def TAG = ""
-
     stage('Lint HTML') {
       steps {
         sh 'tidy -q -e *.html'
