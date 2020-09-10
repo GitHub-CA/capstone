@@ -10,7 +10,7 @@ pipeline {
     stage('Build Docker image') {
       steps {
         script {
-          tag = "v2"
+          def tag = "v2"
           customImage = docker.build("mbeimcik/capstone:${tag}")
         }
 
