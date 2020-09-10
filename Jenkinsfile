@@ -19,20 +19,18 @@ docker image history mbeimcik/capstone'''
           )}""".trim()
 		def img = "mbeimcik/capstone:${tag}"
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          kubectl set image deployment capstone capstone=mbeimcik/capstone:${tag}
+         sh '''kubectl set image deployment capstone capstone=${img}'''
         }
         }
       }
     }
 
-      stage('Rolling update status') {
+    stage('Rolling update status') {
         steps {
           withAWS(region: 'us-west-2', credentials: 'eks-user') {
             sh 'kubectl rollout status deployment capstone'
           }
-
         }
-      }
-
     }
   }
+}
