@@ -14,7 +14,7 @@ docker image history mbeimcik/capstone'''
     stage('Rolling update K8S') {
       steps {
         withAWS(region: 'us-west-2', credentials: 'eks-user') {
-          sh 'kubectl set image deployment capstone capstone=capstone:latest'
+          sh 'kubectl set image deployment capstone capstone=mbeimcik/capstone:latest'
         }
 
       }
